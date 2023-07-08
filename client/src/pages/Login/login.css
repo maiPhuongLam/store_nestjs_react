@@ -1,0 +1,72 @@
+.login-page {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px);
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.dangerous {
+  border: 2px solid rgb(235, 115, 115);
+  outline: rgb(235, 115, 115);
+}
+
+.disble {
+  display: none;
+}
+
+.login-page form {
+  background-color: #147338;
+  padding: 100px 40px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  box-shadow: 5px 10px #87e26c;
+}
+
+.login-page form h1 {
+  color: #fff;
+  font-size: 45px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.login-page .form-field {
+  width: 90%;
+  height: 40px;
+  margin: 10px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.login-page .form-field input,
+.login-page .form-field button {
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  color: #77ab8b;
+}
+.login-page .form-field button:hover {
+  background-color: #77ab8b;
+  color: #fff;
+}
+
+.register-link {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+.register-link p > a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.error {
+  color: rgb(235, 115, 115);
+}
