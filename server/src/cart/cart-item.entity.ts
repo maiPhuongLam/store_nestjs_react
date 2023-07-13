@@ -10,10 +10,12 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { Cart } from './cart.entity';
 
 @Entity()
+@Index(['cartId', 'productId'], { unique: true })
 export class CartItem {
   @PrimaryGeneratedColumn()
   id: number;

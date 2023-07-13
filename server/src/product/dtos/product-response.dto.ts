@@ -10,12 +10,11 @@ export class ProductResponseDto {
   price: number;
   rating: number;
   quantity: number;
+  image: string;
   @Exclude()
   createdAt: Date;
   @Exclude()
   updatedAt: Date;
-  @Exclude()
-  userId: number;
   @Exclude()
   categoryId: number;
 }

@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page flex w-full items-center justify-center bg-white">
       <form onSubmit={handleSubmit}>
         <h1>ĐĂNG NHẬP</h1>
         <div

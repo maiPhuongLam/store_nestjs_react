@@ -17,3 +17,15 @@ export type RegisterResponse = {
   phone: string;
   userType: string;
 } & ErrorResponse;
+
+export type ProductType = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  rating: number;
+  quantity: number;
+};
+
+export type ProductResponse = ProductType[] & ErrorResponse;

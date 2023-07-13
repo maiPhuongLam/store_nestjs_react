@@ -18,13 +18,8 @@ import { UserType } from 'src/user/user.entity';
 @Controller('categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
-  @UseGuards(AuthGuard)
   @Get()
-  async getCategories(@GetUser() user: UserInfo) {
-    console.log(user);
-    if (user?.userType !== UserType.ADMIN) {
-      throw new UnauthorizedException();
-    }
+  async getCategories() {
     return this.categoryService.getAll();
   }
 

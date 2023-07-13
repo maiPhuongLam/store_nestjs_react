@@ -1,20 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login/Login";
-import Navbar from "./components/Navbar/Navbar";
-import Header from "./components/Header/Header";
 import Register from "./pages/Register/Register";
+import Home from "./pages/Home/Home";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <Navbar />
+      <div>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path={"/" || "home"} element={<Home />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

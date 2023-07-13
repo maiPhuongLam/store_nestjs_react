@@ -1,10 +1,5 @@
 .login-page {
-  display: flex;
-  width: 100%;
   height: calc(100vh - 60px);
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
 }
 
 .dangerous {
@@ -17,24 +12,25 @@
 }
 
 .login-page form {
-  background-color: #147338;
+  background-color: var(--main);
   padding: 100px 40px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 400px;
-  box-shadow: 5px 10px #87e26c;
+  box-shadow: 5px 10px #6897e4;
 }
 
 .login-page form h1 {
-  color: #fff;
+  color: #111;
   font-size: 45px;
   margin-bottom: 30px;
   text-transform: uppercase;
 }
 
 .login-page .form-field {
+  color: #111;
   width: 90%;
   height: 40px;
   margin: 10px;
@@ -50,20 +46,21 @@
   border: none;
   outline: none;
   background-color: #fff;
-  color: #77ab8b;
+  color: #111;
 }
 .login-page .form-field button:hover {
-  background-color: #77ab8b;
-  color: #fff;
+  background-color: #6897e4;
+  color: #111;
 }
 
 .register-link {
   margin-top: 12px;
   margin-bottom: 12px;
-  color: #fff;
+  color: #111;
 }
 .register-link p > a {
-  color: #fff;
+  color: #111;
+
   text-decoration: none;
 }
 

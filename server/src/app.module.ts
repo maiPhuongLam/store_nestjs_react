@@ -20,6 +20,7 @@ import { Category } from './category/category.entity';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CartItem } from './cart/cart-item.entity';
 import { DeliveryAddress } from './order/entities/delivery-address.entity';
+import { UserInterceptor } from './user/user.interceptor';
 
 @Module({
   imports: [
@@ -53,6 +54,12 @@ import { DeliveryAddress } from './order/entities/delivery-address.entity';
     CategoryModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: UserInterceptor,
+    },
+  ],
 })
 export class AppModule {}

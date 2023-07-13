@@ -29,6 +29,9 @@ export class CartService {
 
   async getCart(id: number, userId: number): Promise<CartResponseDto> {
     const cart = await this.cartRepository.findOne({ where: { id } });
+    if (!cart) {
+      throw new NotFoundException();
+    }
     if (userId !== cart.userId) {
       throw new UnauthorizedException();
     }

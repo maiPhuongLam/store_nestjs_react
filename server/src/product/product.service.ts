@@ -23,6 +23,7 @@ interface CreatProductParams {
   description: string;
   price: number;
   quantity: number;
+  image: string;
 }
 
 interface UpdateProductParams {
@@ -30,6 +31,7 @@ interface UpdateProductParams {
   description: string;
   price: number;
   quantity: number;
+  image: string;
 }
 
 @Injectable()
@@ -58,6 +60,8 @@ export class ProductService {
     }
 
     return products.map((product) => {
+      delete product.updatedDate;
+      delete product.createdDate;
       return new ProductResponseDto(product);
     });
   }
@@ -67,37 +71,30 @@ export class ProductService {
     if (!product) {
       throw new NotFoundException();
     }
-
+    delete product.updatedDate;
+    delete product.createdDate;
     return new ProductResponseDto(product);
   }
 
-  async createProduct(
-    data: CreatProductParams,
-    userId: number,
-  ): Promise<ProductResponseDto> {
-    const product = await this.productRepository.save({ ...data, userId });
+  async createProduct(data: CreatProductParams): Promise<ProductResponseDto> {
+    const product = await this.productRepository.save({ ...data });
+    delete product.updatedDate;
+    delete product.createdDate;
     return new ProductResponseDto(product);
   }
 
   async updateProduct(
     id: number,
     data: UpdateProductParams,
-    userId: number,
   ): Promise<ProductResponseDto> {
     const product = await this.getProduct(id);
-    if (product.userId !== userId) {
-      throw new UnauthorizedException();
-    }
     await this.productRepository.update(product.id, data);
     await this.productRepository.save(product);
     return this.getProduct(id);
   }
 
-  async deleteProduct(id: number, userId: number) {
+  async deleteProduct(id: number) {
     const product = await this.getProduct(id);
-    if (product.userId !== userId) {
-      throw new UnauthorizedException();
-    }
     await this.productRepository.delete(product.id);
     return 'Delete success';
   }

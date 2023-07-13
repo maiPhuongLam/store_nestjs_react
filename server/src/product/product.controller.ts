@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -15,6 +16,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { GetUser, UserInfo } from 'src/user/user.decorator';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { CartService } from 'src/cart/cart.service';
+import { UserType } from 'src/user/user.entity';
 
 @Controller('products')
 export class ProductController {
@@ -56,7 +58,10 @@ export class ProductController {
     @Body() body: CreateProductDto,
     @GetUser() user: UserInfo,
   ) {
-    return this.productService.createProduct(body, user.id);
+    if (user.userType !== UserType.ADMIN) {
+      throw new UnauthorizedException();
+    }
+    return this.productService.createProduct(body);
   }
 
   @UseGuards(AuthGuard)
@@ -66,7 +71,10 @@ export class ProductController {
     @Body() body: CreateProductDto,
     @GetUser() user: UserInfo,
   ) {
-    return this.productService.updateProduct(id, body, user.id);
+    if (user.userType !== UserType.ADMIN) {
+      throw new UnauthorizedException();
+    }
+    return this.productService.updateProduct(id, body);
   }
 
   @UseGuards(AuthGuard)
@@ -75,6 +83,9 @@ export class ProductController {
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: UserInfo,
   ) {
-    return this.productService.deleteProduct(id, user.id);
+    if (user.userType !== UserType.ADMIN) {
+      throw new UnauthorizedException();
+    }
+    return this.productService.deleteProduct(id);
   }
 }

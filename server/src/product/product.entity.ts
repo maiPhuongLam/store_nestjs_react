@@ -25,23 +25,20 @@ export class Product {
   @Column({ type: 'longtext' })
   description: string;
 
+  @Column({ type: 'longtext' })
+  image: string;
+
   @Column()
   price: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', default: 0 })
   rating: number;
 
   @Column({ type: 'int' })
   quantity: number;
 
-  @ManyToOne(() => User, (user) => user.products)
-  user: User;
-
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
-
-  @Column()
-  userId: number;
 
   @Column()
   categoryId: number;

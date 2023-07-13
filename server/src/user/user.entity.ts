@@ -42,9 +42,6 @@ export class User {
   @Column()
   address: string;
 
-  @OneToMany(() => Product, (product) => product.user)
-  products: Product[];
-
   @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
 

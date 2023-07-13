@@ -18,11 +18,17 @@ export class CategoryService {
       throw new NotFoundException();
     }
 
-    return categories.map((category) => new CategoryResponseDto(category));
+    return categories.map((category) => {
+      delete category.createdDate;
+      delete category.updatedDate;
+      return new CategoryResponseDto(category);
+    });
   }
 
   async create(name: string): Promise<CategoryResponseDto> {
     const category = await this.categoryRepository.save({ name });
+    delete category.createdDate;
+    delete category.updatedDate;
     return new CategoryResponseDto(category);
   }
 
@@ -33,6 +39,8 @@ export class CategoryService {
     }
     category.name = name;
     await this.categoryRepository.save(category);
+    delete category.createdDate;
+    delete category.updatedDate;
     return new CategoryResponseDto(category);
   }
 
@@ -41,7 +49,7 @@ export class CategoryService {
     if (!category) {
       throw new NotFoundException();
     }
-    await this.categoryRepository.delete(category);
+    await this.categoryRepository.remove(category);
     return 'Delete category success';
   }
 }

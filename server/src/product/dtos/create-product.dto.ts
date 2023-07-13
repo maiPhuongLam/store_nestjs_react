@@ -8,6 +8,9 @@ export class CreateProductDto {
   description: string;
 
   @IsNotEmpty()
+  image: string;
+
+  @IsNotEmpty()
   @IsInt()
   price: number;
 
