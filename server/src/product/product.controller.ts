@@ -28,7 +28,10 @@ export class ProductController {
     @Query('minPrice') minPrice: string,
     @Query('maxPrice') maxPrice: string,
     @Query('category') category: string,
+    @Query('page') page: string,
+    @Query('sort') sort: string,
   ) {
+    console.log(page);
     const price =
       minPrice || maxPrice
         ? {
@@ -43,6 +46,8 @@ export class ProductController {
       ...(name && { name }),
       ...(price && { price }),
       ...(category && { categoryName: category }),
+      ...(page ? { page: parseInt(page) } : { page: 1 }),
+      ...(sort && { sort }),
     };
     return this.productService.getProducts(filter);
   }

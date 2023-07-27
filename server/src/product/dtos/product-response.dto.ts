@@ -1,4 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
+import { Category } from 'src/category/category.entity';
+import { Review } from 'src/review/review.entity';
 
 export class ProductResponseDto {
   constructor(partial: Partial<ProductResponseDto>) {
@@ -11,6 +13,8 @@ export class ProductResponseDto {
   rating: number;
   quantity: number;
   image: string;
+  category: Category;
+  reviews: Review[];
   @Exclude()
   createdAt: Date;
   @Exclude()

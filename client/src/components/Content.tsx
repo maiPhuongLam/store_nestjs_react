@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import Products from "./Products";
 import Filter from "./Filter";
+import Pagination from "./Pagination";
 
 const Content = () => {
+  const [nameFilter, setNameFilter] = useState<string>("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
+  const [priceFilter, setPriceFilter] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [productsCount, setProductsCount] = useState<number>(0);
+  const [sort, setSort] = useState<string>("");
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Perform API request or update data based on the new page number
+  };
   return (
     <section className="bg-white py-8">
       <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
@@ -16,10 +27,29 @@ const Content = () => {
               Store
             </a>
           </div>
-          <Filter />
+          <Filter
+            setNameFilter={setNameFilter}
+            setCategoryFilter={setCategoryFilter}
+            setPriceFilter={setPriceFilter}
+            setSort={setSort}
+          />
         </nav>
 
-        <Products />
+        <Products
+          categoryFilter={categoryFilter}
+          priceFilter={priceFilter}
+          nameFilter={nameFilter}
+          currentPage={currentPage}
+          sort={sort}
+          setProductsCount={setProductsCount}
+        />
+      </div>
+      <div className="flex items-center justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(productsCount / 8)}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );

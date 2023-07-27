@@ -24,17 +24,28 @@ export class CartService {
 
   async createCart(userId: number): Promise<CartResponseDto> {
     const cart = await this.cartRepository.save({ userId });
+    delete cart.createdDate;
+    delete cart.updatedDate;
     return new CartResponseDto(cart);
   }
 
   async getCart(id: number, userId: number): Promise<CartResponseDto> {
-    const cart = await this.cartRepository.findOne({ where: { id } });
+    const cart = await this.cartRepository.findOne({
+      where: { id },
+      relations: {
+        cartItems: {
+          product: true,
+        },
+      },
+    });
     if (!cart) {
       throw new NotFoundException();
     }
     if (userId !== cart.userId) {
       throw new UnauthorizedException();
     }
+    delete cart.createdDate;
+    delete cart.updatedDate;
     return new CartResponseDto(cart);
   }
 
@@ -49,14 +60,29 @@ export class CartService {
       },
       relations: ['cartItems'],
     });
-    const cartItem = await this.cartItemRepository.create({
-      productId,
-      cartId: cart.id,
-    });
-    await this.cartItemRepository.save(cartItem);
-    await cart.cartItems.push(cartItem);
-    const fetchCart = await this.cartRepository.save(cart);
-    return new CartResponseDto(fetchCart);
+    if (!cart) {
+      throw new NotFoundException();
+    }
+    const item = cart.cartItems.find((item) => item.productId === productId);
+    if (item) {
+      item.quantity += 1;
+      await this.cartItemRepository.update(item.id, {
+        quantity: item.quantity,
+      });
+      await this.cartRepository.save(cart);
+      return new CartResponseDto(cart);
+    } else {
+      const cartItem = await this.cartItemRepository.create({
+        productId,
+        cartId: cart.id,
+      });
+      await this.cartItemRepository.save(cartItem);
+      await cart.cartItems.push(cartItem);
+      const fetchCart = await this.cartRepository.save(cart);
+      delete fetchCart.createdDate;
+      delete fetchCart.updatedDate;
+      return new CartResponseDto(fetchCart);
+    }
   }
 
   async increaseItemQuantity(
@@ -77,6 +103,8 @@ export class CartService {
         quantity: item.quantity,
       });
       await this.cartRepository.save(cart);
+      delete cart.createdDate;
+      delete cart.updatedDate;
       return new CartResponseDto(cart);
     } else {
       throw new NotFoundException();
@@ -107,6 +135,8 @@ export class CartService {
         await this.cartItemRepository.delete(item.id);
       }
       await this.cartRepository.save(cart);
+      delete cart.createdDate;
+      delete cart.updatedDate;
       return new CartResponseDto(cart);
     } else {
       throw new NotFoundException();
@@ -131,6 +161,8 @@ export class CartService {
     cart.cartItems = cart.cartItems.filter((item) => item.id !== itemId);
     await this.cartItemRepository.delete(item.id);
     await this.cartRepository.save(cart);
+    delete cart.createdDate;
+    delete cart.updatedDate;
     return new CartResponseDto(cart);
   }
 

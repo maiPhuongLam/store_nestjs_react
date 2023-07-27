@@ -39,3 +39,5 @@ const ProductContextProvider: React.FunctionComponent<
     </ProductConext.Provider>
   );
 };
+
+export default ProductContextProvider;

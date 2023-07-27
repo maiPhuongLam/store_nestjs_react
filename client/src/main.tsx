@@ -3,11 +3,15 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import UserContextProvider from "./global-state/Contexts/UserContext.tsx";
+import ProductContextProvider from "./global-state/Contexts/ProductContext.tsx";
+import CartContextProvider from "./global-state/Contexts/CartContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  <CartContextProvider>
     <UserContextProvider>
-      <App />
+      <ProductContextProvider>
+        <App />
+      </ProductContextProvider>
     </UserContextProvider>
-  </React.StrictMode>
+  </CartContextProvider>
 );

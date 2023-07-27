@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Between, Repository } from 'typeorm';
 import { ProductResponseDto } from './dtos/product-response.dto';
-import { Category } from 'src/category/category.entity';
 
 interface GetProductParams {
   name?: string;
@@ -15,7 +14,9 @@ interface GetProductParams {
     lessThan?: number;
     moreThan?: number;
   };
-  categoryName: string;
+  categoryName?: string;
+  page?: number;
+  sort?: string;
 }
 
 interface CreatProductParams {
@@ -42,6 +43,24 @@ export class ProductService {
   ) {}
 
   async getProducts(filter: GetProductParams): Promise<ProductResponseDto[]> {
+    let order;
+    if (!filter.sort) {
+      order = {
+        createdDate: 'DESC',
+      };
+    }
+    if (filter.sort === 'priceAsc') {
+      order = {
+        price: 'ASC',
+      };
+    }
+    if (filter.sort === 'priceDesc') {
+      order = {
+        price: 'DESC',
+      };
+    }
+
+    const take = 8;
     const products = await this.productRepository.find({
       where: {
         name: filter.name,
@@ -53,6 +72,9 @@ export class ProductService {
           name: filter.categoryName,
         },
       },
+      order: order,
+      take: take,
+      skip: take * (filter.page - 1),
     });
 
     if (products.length === 0) {
@@ -67,7 +89,10 @@ export class ProductService {
   }
 
   async getProduct(id: number): Promise<ProductResponseDto> {
-    const product = await this.productRepository.findOne({ where: { id } });
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: { category: true, reviews: true },
+    });
     if (!product) {
       throw new NotFoundException();
     }

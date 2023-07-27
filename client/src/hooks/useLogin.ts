@@ -6,7 +6,6 @@ interface LoginData {
 export const useLogin = async (data: LoginData) => {
   const response = await fetch(loginApi, {
     method: "POST",
-    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },

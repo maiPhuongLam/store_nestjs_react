@@ -27,6 +27,10 @@ export const productReducer = (
       return {
         products: [...state.products, action.payload],
       };
+    case "set_product":
+      return {
+        products: action.payload,
+      };
     default:
       throw new Error();
   }

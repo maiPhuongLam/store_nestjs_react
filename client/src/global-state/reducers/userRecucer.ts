@@ -1,8 +1,9 @@
 import { User, initialState } from "../Contexts/UserContext";
 
-export interface UserState {
-  user: User | null;
-}
+export type UserState = {
+  userId: number;
+  accessToken: string;
+} | null;
 
 export enum UserActionType {
   USER_LOGIN = "user_login",
@@ -11,7 +12,7 @@ export enum UserActionType {
 
 export interface UserAction {
   type: UserActionType;
-  payload: any;
+  payload: User;
 }
 
 export const userReducer = (
@@ -20,9 +21,8 @@ export const userReducer = (
 ): typeof initialState => {
   switch (action.type) {
     case "user_login":
-      return {
-        user: action.payload,
-      };
+      state = action.payload;
+      return state;
     default:
       throw new Error();
   }

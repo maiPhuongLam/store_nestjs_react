@@ -1,7 +1,9 @@
 import React from "react";
 import { ProductType } from "../ServerResponseType";
+import { useNavigate } from "react-router-dom";
 
-const Product = ({
+const Product: React.FC<ProductType> = ({
+  id,
   name,
   price,
   quantity,
@@ -9,10 +11,18 @@ const Product = ({
   description,
   image,
 }: ProductType) => {
+  const naviagate = useNavigate();
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-      <a href="#" className="flex flex-col">
-        <img className="hover:grow hover:shadow-lg h-72" src={image} />
+      <a
+        href="#"
+        className="flex flex-col"
+        onClick={() => naviagate("/product/" + id)}
+      >
+        <img
+          className="hover:grow hover:shadow-lg h-72 object-contain"
+          src={image}
+        />
         <div className="pt-3 flex items-center justify-between">
           <p className="">{name}</p>
           <svg

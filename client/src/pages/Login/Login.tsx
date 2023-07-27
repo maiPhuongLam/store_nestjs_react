@@ -25,7 +25,6 @@ const Login = () => {
       email,
       password,
     })) as LoginResponse;
-    console.log(data);
     if (data.statusCode === 404) {
       setError("Email không chính xác");
       return;
@@ -36,9 +35,9 @@ const Login = () => {
     }
     userDispatch({
       type: UserActionType.USER_LOGIN,
-      payload: data.accessToken,
+      payload: data,
     });
-    localStorage.setItem("user_token", JSON.stringify(data.accessToken));
+    localStorage.setItem("user", JSON.stringify(data));
     naviage("/");
   };
 
