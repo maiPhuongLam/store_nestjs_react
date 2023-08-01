@@ -23,16 +23,19 @@ import { DeliveryAddress } from './order/entities/delivery-address.entity';
 import { UserInterceptor } from './user/user.interceptor';
 import { LikeModule } from './like/like.module';
 import { Like } from './like/like.entity';
-
+import { ConfigModule } from '@nestjs/config';
+import { config } from 'dotenv';
+config();
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'mpl08092002',
-      database: 'store_nestjs_react',
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT, 10),
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
       entities: [
         User,
         Product,
