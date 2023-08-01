@@ -28,6 +28,7 @@ export type ProductType = {
   quantity: number;
   category: string;
   reviews: any[];
+  likes: any[];
 };
 
 export type ProductsResponse = ProductType[] & ErrorResponse;
@@ -45,4 +46,8 @@ export type CartResponse = {
   id: number;
   userId: number;
   cartItems: CartItemType[];
+} & ErrorResponse;
+
+export type LikeResponse = {
+  isLike: boolean;
 } & ErrorResponse;

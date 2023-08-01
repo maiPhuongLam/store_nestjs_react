@@ -17,6 +17,7 @@ import { GetUser, UserInfo } from 'src/user/user.decorator';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { CartService } from 'src/cart/cart.service';
 import { UserType } from 'src/user/user.entity';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Controller('products')
 export class ProductController {
@@ -31,7 +32,6 @@ export class ProductController {
     @Query('page') page: string,
     @Query('sort') sort: string,
   ) {
-    console.log(page);
     const price =
       minPrice || maxPrice
         ? {
@@ -73,7 +73,7 @@ export class ProductController {
   @Put(':id')
   async updateProduct(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: CreateProductDto,
+    @Body() body: UpdateProductDto,
     @GetUser() user: UserInfo,
   ) {
     if (user.userType !== UserType.ADMIN) {

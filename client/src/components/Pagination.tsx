@@ -1,6 +1,6 @@
-// import button from "@material-tailwind/react/src/components/button";
+// import Button from "@material-tailwind/react/src/components/Button";
 import React, { useState } from "react";
-
+import { Button } from "@material-tailwind/react";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
     if (startPage > 1 + boundaryCount) {
       pageNumbers.push(
         <li key={1} className="page-item list-none">
-          <button {...getItemProps(1)}>1</button>
+          <Button {...getItemProps(1)}>1</Button>
         </li>
       );
       if (startPage !== 2 + boundaryCount) {
@@ -75,7 +75,7 @@ const Pagination: React.FC<PaginationProps> = ({
           key={i}
           className={`page-item${currentPage === i ? " active" : ""} list-none`}
         >
-          <button {...getItemProps(i)}>{i}</button>
+          <Button {...getItemProps(i)}>{i}</Button>
         </li>
       );
     }
@@ -90,7 +90,7 @@ const Pagination: React.FC<PaginationProps> = ({
       }
       pageNumbers.push(
         <li key={totalPages} className="page-item list-none">
-          <button {...getItemProps(totalPages)}>{totalPages}</button>
+          <Button {...getItemProps(totalPages)}>{totalPages}</Button>
         </li>
       );
     }
@@ -111,12 +111,12 @@ const Pagination: React.FC<PaginationProps> = ({
     // <nav>
     //   <ul className="pagination">
     //     <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
-    //       <button
+    //       <Button
     //         className="page-link"
     //         onClick={() => onPageChange(currentPage - 1)}
     //       >
     //         Previous
-    //       </button>
+    //       </Button>
     //     </li>
     //     {getPageNumbers()}
     //     <li
@@ -124,12 +124,12 @@ const Pagination: React.FC<PaginationProps> = ({
     //         currentPage === totalPages ? " disabled" : ""
     //       }`}
     //     >
-    //       <button
+    //       <Button
     //         className="page-link"
     //         onClick={() => onPageChange(currentPage + 1)}
     //       >
     //         Next
-    //       </button>
+    //       </Button>
     //     </li>
     //   </ul>
     // </nav>

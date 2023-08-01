@@ -37,7 +37,6 @@ export class CartController {
     @Param('cartId', ParseIntPipe) id: number,
     @Body() body: CreateCartItemDto,
   ) {
-    console.log(id);
     return this.cartService.addItemToCart(id, body);
   }
 

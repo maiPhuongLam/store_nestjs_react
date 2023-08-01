@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -25,6 +26,7 @@ interface CreatProductParams {
   price: number;
   quantity: number;
   image: string;
+  categoryId: number;
 }
 
 interface UpdateProductParams {
@@ -72,6 +74,9 @@ export class ProductService {
           name: filter.categoryName,
         },
       },
+      relations: {
+        likes: true,
+      },
       order: order,
       take: take,
       skip: take * (filter.page - 1),
@@ -91,7 +96,7 @@ export class ProductService {
   async getProduct(id: number): Promise<ProductResponseDto> {
     const product = await this.productRepository.findOne({
       where: { id },
-      relations: { category: true, reviews: true },
+      relations: { category: true, reviews: true, likes: true },
     });
     if (!product) {
       throw new NotFoundException();

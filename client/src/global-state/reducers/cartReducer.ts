@@ -11,6 +11,7 @@ export enum CartActionType {
   ADD_CART_ITEM = "add_cart_item",
   DELETE_CART_ITEM = "delete_cart_item",
   SET_CART = "set_cart",
+  UPDATE_CART = "update_cart",
 }
 
 export interface CartAction {
@@ -36,6 +37,8 @@ export const cartReducer = (
         ],
       };
     case "set_cart":
+      return action.payload;
+    case "update_cart":
       return action.payload;
     default:
       throw new Error();

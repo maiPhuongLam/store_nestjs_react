@@ -83,6 +83,7 @@ const Products: React.FC<ProductsProps> = ({
             image={product.image}
             category={product.category}
             reviews={product.reviews}
+            likes={product.likes}
           />
         ))
       ) : (

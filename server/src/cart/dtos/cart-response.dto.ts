@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { CartItem } from '../cart-item.entity';
 
 export class CartResponseDto {
   constructor(partial: Partial<CartResponseDto>) {
@@ -7,6 +8,7 @@ export class CartResponseDto {
 
   id: number;
   userId: number;
+  cartItems: CartItem[];
   @Exclude()
   createdDate: Date;
   @Exclude()

@@ -1,9 +1,7 @@
-import { IsEmail } from 'class-validator';
 import { CartItem } from 'src/cart/cart-item.entity';
-import { Cart } from 'src/cart/cart.entity';
 import { Category } from 'src/category/category.entity';
+import { Like } from 'src/like/like.entity';
 import { Review } from 'src/review/review.entity';
-import { User } from 'src/user/user.entity';
 import {
   Entity,
   Column,
@@ -31,9 +29,6 @@ export class Product {
   @Column()
   price: number;
 
-  @Column({ type: 'float', default: 0 })
-  rating: number;
-
   @Column({ type: 'int' })
   quantity: number;
 
@@ -48,6 +43,9 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews: Review[];
+
+  @OneToMany(() => Like, (like) => like.product)
+  likes: Like[];
 
   @CreateDateColumn()
   createdDate: Date;

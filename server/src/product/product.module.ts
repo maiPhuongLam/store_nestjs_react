@@ -16,5 +16,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       useClass: ClassSerializerInterceptor,
     },
   ],
+  exports: [ProductService],
 })
 export class ProductModule {}

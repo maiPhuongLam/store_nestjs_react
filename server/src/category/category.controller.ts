@@ -39,7 +39,6 @@ export class CategoryController {
     @Body('name') name: string,
     @GetUser() user: UserInfo,
   ) {
-    console.log(user);
     if (user.userType !== UserType.ADMIN) {
       throw new UnauthorizedException();
     }

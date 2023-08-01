@@ -64,24 +64,27 @@ export class CartService {
       throw new NotFoundException();
     }
     const item = cart.cartItems.find((item) => item.productId === productId);
+
     if (item) {
       item.quantity += 1;
       await this.cartItemRepository.update(item.id, {
         quantity: item.quantity,
       });
       await this.cartRepository.save(cart);
-      return new CartResponseDto(cart);
+      return this.getCart(cart.id, cart.userId);
     } else {
       const cartItem = await this.cartItemRepository.create({
         productId,
         cartId: cart.id,
       });
+
       await this.cartItemRepository.save(cartItem);
       await cart.cartItems.push(cartItem);
       const fetchCart = await this.cartRepository.save(cart);
+
       delete fetchCart.createdDate;
       delete fetchCart.updatedDate;
-      return new CartResponseDto(fetchCart);
+      return this.getCart(fetchCart.id, fetchCart.userId);
     }
   }
 
@@ -137,7 +140,7 @@ export class CartService {
       await this.cartRepository.save(cart);
       delete cart.createdDate;
       delete cart.updatedDate;
-      return new CartResponseDto(cart);
+      return this.getCart(cart.id, cart.userId);
     } else {
       throw new NotFoundException();
     }
@@ -149,7 +152,11 @@ export class CartService {
   ): Promise<CartResponseDto> {
     const cart = await this.cartRepository.findOne({
       where: { id: cartId },
-      relations: ['cartItems'],
+      relations: {
+        cartItems: {
+          product: true,
+        },
+      },
     });
     if (!cart) {
       throw new NotFoundException();

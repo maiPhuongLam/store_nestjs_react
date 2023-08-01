@@ -21,6 +21,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CartItem } from './cart/cart-item.entity';
 import { DeliveryAddress } from './order/entities/delivery-address.entity';
 import { UserInterceptor } from './user/user.interceptor';
+import { LikeModule } from './like/like.module';
+import { Like } from './like/like.entity';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { UserInterceptor } from './user/user.interceptor';
         Category,
         CartItem,
         DeliveryAddress,
+        Like,
       ],
       synchronize: true,
     }),
@@ -52,6 +55,7 @@ import { UserInterceptor } from './user/user.interceptor';
     ReviewModule,
     AuthModule,
     CategoryModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [

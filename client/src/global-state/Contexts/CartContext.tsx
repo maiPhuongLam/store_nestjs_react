@@ -1,10 +1,14 @@
-import { ReactNode, createContext, useReducer } from "react";
+import { ReactNode, createContext, useEffect, useReducer } from "react";
 import {
   CartAction,
   CartActionType,
   CartState,
   cartReducer,
 } from "../reducers/cartReducer";
+import { useUserContext } from "../../hooks/useUserContext";
+import { useCart } from "../../hooks/useCart";
+import { useCartContext } from "../../hooks/useCartContext";
+import { User } from "./UserContext";
 
 interface CartContextProviderProps {
   children: ReactNode;
@@ -36,6 +40,7 @@ const CartContextProvider: React.FunctionComponent<
   const [cartState, cartDispatch] = useReducer<
     (state: CartState, action: CartAction) => CartState
   >(cartReducer, initialCartState as CartState);
+  const { getCart } = useCart();
 
   return (
     <CartConext.Provider value={{ cartState, cartDispatch }}>

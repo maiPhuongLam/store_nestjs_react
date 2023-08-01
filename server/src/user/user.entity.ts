@@ -1,5 +1,6 @@
 import { IsEmail } from 'class-validator';
 import { Cart } from 'src/cart/cart.entity';
+import { Like } from 'src/like/like.entity';
 import { DeliveryAddress } from 'src/order/entities/delivery-address.entity';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/product/product.entity';
@@ -55,6 +56,9 @@ export class User {
   deliveryAddresses: DeliveryAddress[];
   @Column({ type: 'enum', enum: UserType })
   userType: UserType;
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[];
 
   @CreateDateColumn()
   createdDate: Date;

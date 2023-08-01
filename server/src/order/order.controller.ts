@@ -23,7 +23,6 @@ export class OrderController {
     @Body() body: CreateDeliveryAddressDto,
     @GetUser() user: UserInfo,
   ) {
-    console.log(user);
     return this.orderService.createDeliveryAddress({
       ...body,
       userId: user.id,

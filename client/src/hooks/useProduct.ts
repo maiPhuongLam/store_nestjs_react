@@ -1,3 +1,4 @@
+import { ProductResponse } from "../ServerResponseType";
 import { productsApi } from "../api/productApi";
 
 export const useProduct = () => {
@@ -12,5 +13,21 @@ export const useProduct = () => {
     return response.json();
   };
 
-  return { getProducts };
+  const getProduct = async (id: number, token: string) => {
+    const response = await fetch(`${productsApi}/${id}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    const product = (await response.json()) as ProductResponse;
+    // if (product.statusCode === 404) {
+    //   return "error";
+    // }
+    return product;
+  };
+
+  return { getProducts, getProduct };
 };

@@ -21,7 +21,7 @@ export const useCart = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const cart = (await response.json()) as CartState & ErrorResponse;
+    const cart = (await response.json()) as CartResponse;
     cartDispatch({ type: CartActionType.SET_CART, payload: cart });
     return cart;
   };
@@ -61,10 +61,9 @@ export const useCart = () => {
     return result;
   };
 
-  const removeItemToCart = async (
+  const decreaseItem = async (
     cartId: number,
     itemId: number,
-    productId: number,
     token: string
   ) => {
     const response = await fetch(
@@ -76,12 +75,24 @@ export const useCart = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ productId }),
       }
     );
     const result = (await response.json()) as CartResponse;
     return result;
   };
 
-  return { getCart, createCart, addItemToCart, removeItemToCart };
+  const removeItem = async (cartId: number, itemId: number, token: string) => {
+    const response = await fetch(`${cartApi}/${cartId}/items/${itemId}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = (await response.json()) as CartResponse;
+    return result;
+  };
+
+  return { getCart, createCart, addItemToCart, decreaseItem, removeItem };
 };

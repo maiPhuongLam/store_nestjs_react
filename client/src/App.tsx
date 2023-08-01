@@ -17,32 +17,34 @@ import { CartActionType, CartState } from "./global-state/reducers/cartReducer";
 
 function App() {
   const { userState, userDispatch } = useUserContext();
-  const { cartState, cartDispatch } = useCartContext();
+  const { cartDispatch } = useCartContext();
   const { getCart } = useCart();
   useEffect(() => {
-    const user: User = JSON.parse(localStorage.getItem("user")!);
-    if (user) {
-      userDispatch({ type: UserActionType.USER_LOGIN, payload: user });
-    }
-  }, []);
+    const setUser = async () => {
+      const user: User = JSON.parse(localStorage.getItem("user")!);
+      if (user) {
+        await userDispatch({ type: UserActionType.USER_LOGIN, payload: user });
+      }
+    };
+    setUser();
+  }, [userDispatch]);
 
   useEffect(() => {
     let controller = new AbortController();
     const cartId = localStorage.getItem("cart");
-    if (cartId && userState?.accessToken) {
+    const user: User = JSON.parse(localStorage.getItem("user")!);
+    if (cartId && user.accessToken) {
       const fetchCart = async () => {
-        const cart = await getCart(cartId, userState?.accessToken as string);
+        const cart = await getCart(cartId, user.accessToken as string);
         if (cart.error) {
           return;
         }
-        cartDispatch({ type: CartActionType.SET_CART, payload: cart });
+        await cartDispatch({ type: CartActionType.SET_CART, payload: cart });
       };
       fetchCart();
       return () => controller.abort();
     }
-  }, [userState]);
-  console.log(userState);
-  console.log(cartState);
+  }, [cartDispatch]);
   return (
     <BrowserRouter>
       <Navbar />
